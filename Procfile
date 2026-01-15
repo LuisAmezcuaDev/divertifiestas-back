@@ -1,0 +1,1 @@
+web: python manage.py collectstatic && gunicorn divertifiestasBack.wsgi --workers 4 --timeout 60
