@@ -1,1 +1,1 @@
-web: python manage.py collectstatic && gunicorn divertifiestasBack.wsgi --workers 4 --timeout 60
+web: gunicorn divertifiestasback.wsgi --bind 0.0.0.0:$PORT
