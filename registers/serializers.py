@@ -6,12 +6,12 @@ class ProductSerializer(serializers.ModelSerializer):
     name_category = serializers.CharField(source='categorie.name', read_only=True)
     class Meta:
         model = Product
-        fields = [
-            'id', 'name', 'category', 
-            'name_category', 'units', 
-            'purchase_price', 'sale_price', 
-            'place'
-        ]
+        fields = '__all_'
+    # Esto asegura que la URL de la imagen sea absoluta y use HTTPS
+    def get_imagen(self, obj):
+        if obj.image:
+            return obj.image.url
+        return None
 
 class CategorieSerializer(serializers.ModelSerializer):
     class Meta:

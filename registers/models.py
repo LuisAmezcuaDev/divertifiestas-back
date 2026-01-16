@@ -20,6 +20,7 @@ class Place(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='products/', blank=True, null=True)
     category = models.ForeignKey(Categorie, on_delete=models.CASCADE)
     units = models.PositiveIntegerField()
     purchase_price = models.DecimalField(max_digits=10, decimal_places=2)
@@ -37,16 +38,14 @@ class Compare(models.Model):
     look_price = models.DecimalField(max_digits=10, decimal_places=2)
     register_date = models.DateField(auto_now_add=True)
     
-    # class Meta:
-    #     verbose_name = "Comparativa de Precio"
-    #     # Ordenar para ver siempre el más barato primero al consultar
-    #     ordering = ['precio_visto']
-
-    # def __str__(self):
-    #     return f"{self.nombre_producto} en {self.lugar_compra.nombre}: ${self.precio_visto}"
+    class Meta:
+        verbose_name = "Comparativa de Precio"
+        # Ordenar para ver siempre el más barato primero al consultar
+        ordering = ['look_price']
 
     def __str__(self):
-        return self.name_product
+        return f"{self.name_product} en {self.place.name}: ${self.look_price}"
+
     
 class DailySale(models.Model):
    date = models.DateField(auto_now_add=True)
