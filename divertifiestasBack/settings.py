@@ -126,44 +126,38 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
+# --- CONFIGURACIÓN DE ARCHIVOS ESTÁTICOS (WhiteNoise) ---
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Esto es fundamental para que WhiteNoise encuentre los archivos del ADMIN
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-]   
+]
 
-# Forzamos a WhiteNoise a buscar en las carpetas de las Apps (donde vive el Admin)
 WHITENOISE_USE_FINDERS = True
-WHITENOISE_AUTOREFRESH = True # Ayuda en algunos entornos de contenedores
-
-# Importante: Mantén STATICFILES_DIRS vacío o comentado si no tienes una carpeta 'static' propia
-STATICFILES_DIRS = []
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
-
-# --- ARCHIVOS MULTIMEDIA (Imágenes) ---
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# Esta línea permite que WhiteNoise funcione aunque la carpeta esté vacía al inicio
 WHITENOISE_KEEP_ONLY_HASHED_FILES = True
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CSRF_TRUSTED_ORIGINS = ['http://*', 'https://divertifiestas-back-production.up.railway.app', 'https://*.up.railway.app']
-
+# --- CONFIGURACIÓN DE CLOUDINARY ---
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
     'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
-    'STATICFILES_STORAGE': None  # <--- ESTO ES VITAL: Le dice a Cloudinary que no toque el CSS
 }
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+# --- EL MOTOR DE ALMACENAMIENTO (Django 5.x) ---
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
+
+# --- CONFIGURACIÓN DE MEDIA ---
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+CSRF_TRUSTED_ORIGINS = ['http://*', 'https://divertifiestas-back-production.up.railway.app', 'https://*.up.railway.app']
