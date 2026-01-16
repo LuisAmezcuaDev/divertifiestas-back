@@ -137,6 +137,9 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Esta línea permite que WhiteNoise funcione aunque la carpeta esté vacía al inicio
+WHITENOISE_KEEP_ONLY_HASHED_FILES = True
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
