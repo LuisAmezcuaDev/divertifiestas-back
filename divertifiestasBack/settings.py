@@ -43,12 +43,12 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'cloudinary_storage', # <-- Agregar aquí
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'cloudinary_storage', # <-- Agregar aquí
     'django.contrib.staticfiles',
     'cloudinary',          # <-- Agregar aquí
     'rest_framework',
@@ -150,7 +150,8 @@ CSRF_TRUSTED_ORIGINS = ['http://*', 'https://divertifiestas-back-production.up.r
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
     'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET')
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+    'STATICFILES_STORAGE': None  # <--- ESTO ES VITAL: Le dice a Cloudinary que no toque el CSS
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
