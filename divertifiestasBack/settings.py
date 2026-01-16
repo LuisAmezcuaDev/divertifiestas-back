@@ -131,10 +131,11 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Añade estas dos líneas para ayudar a WhiteNoise
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'), # Asegúrate de que esta carpeta exista aunque esté vacía
-]
+# Esto es fundamental para que WhiteNoise encuentre los archivos del ADMIN
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]   
 
 # --- ARCHIVOS MULTIMEDIA (Imágenes) ---
 MEDIA_URL = '/media/'
