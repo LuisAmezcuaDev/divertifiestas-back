@@ -43,13 +43,13 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'cloudinary_storage', # <-- Agregar aquí
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage', # <-- Agregar aquí
     'cloudinary',          # <-- Agregar aquí
     'rest_framework',
     'registers.apps.RegistersConfig',
@@ -137,6 +137,15 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]   
 
+# Forzamos a WhiteNoise a buscar en las carpetas de las Apps (donde vive el Admin)
+WHITENOISE_USE_FINDERS = True
+WHITENOISE_AUTOREFRESH = True # Ayuda en algunos entornos de contenedores
+
+# Importante: Mantén STATICFILES_DIRS vacío o comentado si no tienes una carpeta 'static' propia
+STATICFILES_DIRS = []
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+
 # --- ARCHIVOS MULTIMEDIA (Imágenes) ---
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -158,4 +167,3 @@ CLOUDINARY_STORAGE = {
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
