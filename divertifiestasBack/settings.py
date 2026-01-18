@@ -101,19 +101,20 @@ CLOUDINARY_STORAGE = {
     'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
     'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
 }
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
 # --- MOTOR DE ALMACENAMIENTO (Django 5.x) ---
 STORAGES = {
     "default": {
         "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+        # Cambiamos CompressedStaticFilesStorage por StaticFilesStorage
+        "BACKEND": "whitenoise.storage.StaticFilesStorage",
     },
 }
+# --- COMPATIBILIDAD (Actualiza también estas líneas) ---
+STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
 # --- ARCHIVOS MULTIMEDIA (Media) ---
 # Corregido: No deben apuntar a staticfiles
