@@ -26,11 +26,23 @@ class Product(models.Model):
     purchase_price = models.DecimalField(max_digits=10, decimal_places=2)
     sale_price = models.DecimalField(max_digits=10, decimal_places=2)
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
-    
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
+
+class UnitPricing(models.Model):
+    product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='unit_pricing')
+    individual_sale_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     
+    # Granel configurable
+    bulk_quantity = models.PositiveIntegerField(null=True, blank=True, verbose_name="Cantidad (Gramos)")
+    bulk_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True, verbose_name="Precio Granel")
+
+    class Meta:
+        verbose_name = "Precio al Detalle"
+        verbose_name_plural = "Precios al Detalle"
+
 class Compare(models.Model):
     name_product = models.CharField(max_length=200)
     category = models.ForeignKey(Categorie, on_delete=models.CASCADE)
